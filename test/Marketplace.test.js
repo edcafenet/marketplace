@@ -30,7 +30,7 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
   describe('services', async () =>{
     let result, serviceCount
     before(async () => {
-      result = await marketplace.createService('iPhone X', web3.utils.toWei('1','Ether'), {from:seller})
+      result = await marketplace.createService('iPhone X', web3.utils.toWei('1','Ether'), 30, {from:seller})
       serviceCount = await marketplace.serviceCount()
     })
 
@@ -41,6 +41,7 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
       assert.equal(event.id.toNumber(), serviceCount.toNumber(), 'id is correct')
       assert.equal(event.name, 'iPhone X', 'name is correct')
       assert.equal(event.price, '1000000000000000000', 'price is correct')
+      assert.equal(event.timeInMinutes, '30', 'time duration is correct')
       assert.equal(event.owner, seller, 'owner is correct')
       assert.equal(event.purchased, false, 'purchased is correct')
 
@@ -49,6 +50,8 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
       await await marketplace.createService('', web3.utils.toWei('1','Ether'), {from:seller}).should.be.rejected;
       // Service must have a price above 0
       await await marketplace.createService('IPhone X', 0, {from:seller}).should.be.rejected;
+      // Service must have a time duration above 0
+      await await marketplace.createService('IPhone X',  web3.utils.toWei('1','Ether'), 0, {from:seller}).should.be.rejected;
 
     })
 
@@ -57,6 +60,7 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
       assert.equal(service.id.toNumber(), serviceCount.toNumber(), 'id is correct')
       assert.equal(service.name, 'iPhone X', 'name is correct')
       assert.equal(service.price, '1000000000000000000', 'price is correct')
+      assert.equal(service.timeInMinutes, '30', 'time duration is correct')
       assert.equal(service.owner, seller, 'owner is correct')
       assert.equal(service.purchased, false, 'purchased is correct')
     })
@@ -103,7 +107,7 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
     it('remove services', async () =>{
       // SUCCESS
       // Create a service that was not bought previously
-      let resultCreateService = await marketplace.createService('iPhone XI', web3.utils.toWei('1','Ether'), {from:seller})
+      let resultCreateService = await marketplace.createService('iPhone XI', web3.utils.toWei('1','Ether'), 30,  {from:seller})
       const event = resultCreateService.logs[0].args
       let serviceCountBefore = await marketplace.serviceCount()
       result = await marketplace.removeService(event.id.toNumber(), {from:seller});
@@ -118,6 +122,6 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
 
       // Service cannot be erased from buyer
       await await marketplace.removeService(0,{from:buyer}).should.be.rejected;
-    })
+     })
   })
 })
