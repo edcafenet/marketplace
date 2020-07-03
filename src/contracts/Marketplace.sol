@@ -3,7 +3,7 @@ pragma solidity ^0.5.0;
 contract Marketplace {
   string public name;
 
-  struct Product{
+  struct Service{
     uint id;
     string name;
     uint price;
@@ -11,11 +11,11 @@ contract Marketplace {
     bool purchased;
   }
 
-  uint public productCount = 0;
-  mapping(uint => Product) public products;
+  uint public serviceCount = 0;
+  mapping(uint => Service) public services;
 
-  // Log event for the creation of the product
-  event ProductCreated(
+  // Log event for the creation of the service
+  event ServiceCreated(
     uint id,
     string name,
     uint price,
@@ -23,8 +23,8 @@ contract Marketplace {
     bool purchased
   );
 
-  // Log event for paying a product
-  event ProductPurchased(
+  // Log event for paying a service
+  event ServicePurchased(
     uint id,
     string name,
     uint price,
@@ -32,8 +32,8 @@ contract Marketplace {
     bool purchased
   );
 
-  // Log event for paying a product
-  event ProductRemoved(
+  // Log event for paying a service
+  event ServiceRemoved(
     uint id,
     string name,
     uint price,
@@ -44,65 +44,65 @@ contract Marketplace {
     name = "IRIDIA Swarm Marketplace";
   }
 
-  function createProduct(string memory _name, uint _price) public {
+  function createService(string memory _name, uint _price) public {
     // Make sure parameters are correct:
     // require a _name
     require(bytes(_name).length > 0);
     // require a valid _price
     require(_price > 0);
-    // increment product count
-    productCount++;
-    // create a product
-    products[productCount] = Product(productCount, _name, _price, msg.sender, false);
+    // increment service count
+    serviceCount++;
+    // create a service
+    services[serviceCount] = Service(serviceCount, _name, _price, msg.sender, false);
     // trigger an event
-    emit ProductCreated(productCount, _name, _price, msg.sender, false);
+    emit ServiceCreated(serviceCount, _name, _price, msg.sender, false);
   }
 
-  function purchaseProduct(uint _id) public payable {
-    //fetch the products
-    Product memory _product = products[_id];
+  function purchaseService(uint _id) public payable {
+    //fetch the services
+    Service memory _service = services[_id];
     //fetch the owner
-    address payable _seller = _product.owner;
+    address payable _seller = _service.owner;
 
-    //make sure the product has a valid id
-    require(_product.id > 0 && _product.id <= productCount);
+    //make sure the service has a valid id
+    require(_service.id > 0 && _service.id <= serviceCount);
 
     // require that there is enough Ether in the transaction
-    require(msg.value >= _product.price);
-    // Require that the product has not been purchased already
-    require(!_product.purchased);
+    require(msg.value >= _service.price);
+    // Require that the service has not been purchased already
+    require(!_service.purchased);
     // Require that the buyer is different from the seller
     require(_seller != msg.sender);
     // transfer ownership to the buyer
-    _product.owner = msg.sender;
+    _service.owner = msg.sender;
     // mark as purchased
-    _product.purchased = true;
-    // Update the product
-    products[_id] = _product;
+    _service.purchased = true;
+    // Update the service
+    services[_id] = _service;
     // pay the seller by sending them Ether
     address(_seller).transfer(msg.value);
 
     // trigger an event
-    emit ProductPurchased(_id, _product.name, _product.price, msg.sender, true);
+    emit ServicePurchased(_id, _service.name, _service.price, msg.sender, true);
   }
 
-  function removeProduct(uint _id) public {
-    //fetch the products
-    Product memory _product = products[_id];
+  function removeService(uint _id) public {
+    //fetch the services
+    Service memory _service = services[_id];
     //fetch the owner
-    address _seller = _product.owner;
-    //make sure the product has a valid id
-    require(_product.id > 0 && _product.id <= productCount);
-    // Require that the product has not been purchased already
-    require(!_product.purchased);
+    address _seller = _service.owner;
+    //make sure the service has a valid id
+    require(_service.id > 0 && _service.id <= serviceCount);
+    // Require that the service has not been purchased already
+    require(!_service.purchased);
     // Require that the caller is the seller
     require(_seller == msg.sender);
-    // Delete the product
-    delete products[_id];
-    //decrease productCount
-    productCount--;
+    // Delete the service
+    delete services[_id];
+    //decrease serviceCount
+    serviceCount--;
 
     // trigger an event
-    emit ProductRemoved(_id, _product.name, _product.price, msg.sender);
+    emit ServiceRemoved(_id, _service.name, _service.price, msg.sender);
   }
 }

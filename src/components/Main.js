@@ -5,35 +5,35 @@ class Main extends Component {
   render() {
     return (
       <div id="content">
-        <h1>Add Product</h1>
+        <h1>Add Service</h1>
         <form onSubmit={(event) => {
           event.preventDefault()
-          const name = this.productName.value
-          const price = window.web3.utils.toWei(this.productPrice.value.toString(), 'Ether')
-          this.props.createProduct(name, price)
+          const name = this.serviceName.value
+          const price = window.web3.utils.toWei(this.servicePrice.value.toString(), 'Ether')
+          this.props.createService(name, price)
         }}>
           <div className="form-group mr-sm-2">
             <input
-              id="productName"
+              id="serviceName"
               type="text"
-              ref={(input) => { this.productName = input }}
+              ref={(input) => { this.serviceName = input }}
               className="form-control"
-              placeholder="Product Name"
+              placeholder="Service Name"
               required />
           </div>
           <div className="form-group mr-sm-2">
             <input
-              id="productPrice"
+              id="servicePrice"
               type="text"
-              ref={(input) => { this.productPrice = input }}
+              ref={(input) => { this.servicePrice = input }}
               className="form-control"
-              placeholder="Product Price"
+              placeholder="Service Price"
               required />
           </div>
-          <button type="submit" className="btn btn-primary">Add Product</button>
+          <button type="submit" className="btn btn-primary">Add Service</button>
         </form>
         <p>&nbsp;</p>
-        <h2>Buy Product</h2>
+        <h2>Buy Service</h2>
         <table className="table">
           <thead>
             <tr>
@@ -44,21 +44,21 @@ class Main extends Component {
               <th scope="col"></th>
             </tr>
           </thead>
-          <tbody id="productList">
-            { this.props.products.map((product, key) => {
+          <tbody id="serviceList">
+            { this.props.services.map((service, key) => {
               return(
                 <tr key={key}>
-                  <th scope="row">{product.id.toString()}</th>
-                  <td>{product.name}</td>
-                  <td>{window.web3.utils.fromWei(product.price.toString(), 'Ether')} Eth</td>
-                  <td>{product.owner}</td>
+                  <th scope="row">{service.id.toString()}</th>
+                  <td>{service.name}</td>
+                  <td>{window.web3.utils.fromWei(service.price.toString(), 'Ether')} Eth</td>
+                  <td>{service.owner}</td>
                   <td>
-                    { !product.purchased
+                    { !service.purchased
                       ? <button
-                          name={product.id}
-                          value={product.price}
+                          name={service.id}
+                          value={service.price}
                           onClick={(event) => {
-                            this.props.purchaseProduct(event.target.name, event.target.value)
+                            this.props.purchaseService(event.target.name, event.target.value)
                           }}
                         >
                           Buy
@@ -68,11 +68,11 @@ class Main extends Component {
                     </td>
 
                     <td>
-                      { !product.purchased && product.owner === this.props.account
+                      { !service.purchased && service.owner === this.props.account
                         ? <button
-                            name={product.id}
+                            name={service.id}
                             onClick={(event) => {
-                              this.props.removeProduct(event.target.name)
+                              this.props.removeService(event.target.name)
                             }}
                           >
                             Remove

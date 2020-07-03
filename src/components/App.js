@@ -36,13 +36,13 @@ class App extends Component {
     if (networkData){
       const marketplace = web3.eth.Contract(Marketplace.abi, networkData.address)
       this.setState({marketplace})
-      const productCount = await marketplace.methods.productCount().call()
-      this.setState({productCount})
-      // Load products
-      for (var i =1; i<=productCount; i++){
-        const product = await marketplace.methods.products(i).call()
+      const serviceCount = await marketplace.methods.serviceCount().call()
+      this.setState({serviceCount})
+      // Load services
+      for (var i =1; i<=serviceCount; i++){
+        const service = await marketplace.methods.services(i).call()
         this.setState({
-          products: [...this.state.products, product]
+          services: [...this.state.services, service]
         })
       }
       this.setState({loading:false})
@@ -57,34 +57,34 @@ class App extends Component {
     super(props)
     this.state = {
       account: '',
-      productCount: 0,
-      products: [],
+      serviceCount: 0,
+      services: [],
       loading: true
     }
-    this.createProduct = this.createProduct.bind(this)
-    this.purchaseProduct = this.purchaseProduct.bind(this)
-    this.removeProduct = this.removeProduct.bind(this)
+    this.createService = this.createService.bind(this)
+    this.purchaseService = this.purchaseService.bind(this)
+    this.removeService = this.removeService.bind(this)
   }
 
-  createProduct(name,price){
+  createService(name,price){
     this.setState({loading: true})
-    this.state.marketplace.methods.createProduct(name,price).send({from: this.state.account}).on('confirmation', (receipt) => {
+    this.state.marketplace.methods.createService(name,price).send({from: this.state.account}).on('confirmation', (receipt) => {
       this.setState({loading: false})
       window.location.reload()
     })
   }
 
-  purchaseProduct(id ,price){
+  purchaseService(id ,price){
     this.setState({loading: true})
-    this.state.marketplace.methods.purchaseProduct(id).send({from: this.state.account, value: price}).on('confirmation', (receipt) => {
+    this.state.marketplace.methods.purchaseService(id).send({from: this.state.account, value: price}).on('confirmation', (receipt) => {
       this.setState({loading: false})
       window.location.reload()
     })
   }
 
-  removeProduct(id){
+  removeService(id){
     this.setState({loading: true})
-    this.state.marketplace.methods.removeProduct(id).send({from: this.state.account}).on('confirmation', (receipt) => {
+    this.state.marketplace.methods.removeService(id).send({from: this.state.account}).on('confirmation', (receipt) => {
       this.setState({loading: false})
       window.location.reload()
     })
@@ -101,10 +101,10 @@ class App extends Component {
                  ? <div id="loader" className="text-center"><p className="text-center">Loading ...</p></div>
                  : <Main
                   account = {this.state.account}
-                  products = {this.state.products}
-                  purchaseProduct = {this.purchaseProduct}
-                  createProduct={this.createProduct}
-                  removeProduct = {this.removeProduct}/>}
+                  services = {this.state.services}
+                  purchaseService = {this.purchaseService}
+                  createService={this.createService}
+                  removeService = {this.removeService}/>}
             </main>
            </div>
         </div>
