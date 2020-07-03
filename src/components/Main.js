@@ -42,6 +42,8 @@ class Main extends Component {
               <th scope="col">Price</th>
               <th scope="col">Owner</th>
               <th scope="col"></th>
+              <th scope="col"></th>
+              <th scope="col">Input data</th>
             </tr>
           </thead>
           <tbody id="serviceList">
@@ -77,6 +79,19 @@ class Main extends Component {
                           >
                             Remove
                           </button>
+                        : null
+                      }
+                      </td>
+                      <td>
+                      { !service.purchased && service.owner !== this.props.account
+                        ?
+                      <input
+                        id="input"
+                        type="text"
+                        ref={(input) => { this.serviceInput = input }}
+                        className="form-control"
+                        placeholder="Input data"
+                        required />
                         : null
                       }
                       </td>
