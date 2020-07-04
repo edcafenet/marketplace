@@ -8,6 +8,7 @@ contract Marketplace {
     string name;
     uint price;
     uint timeInMinutes;
+    bytes32[] inputData;
     address payable owner;
     bool purchased;
   }
@@ -31,6 +32,7 @@ contract Marketplace {
     string name,
     uint price,
     uint timeInMinutes,
+    bytes32[] inputData,
     address payable owner,
     bool purchased
   );
@@ -59,7 +61,8 @@ contract Marketplace {
     // increment service count
     serviceCount++;
     // create a service
-    services[serviceCount] = Service(serviceCount, _name, _price, _timeInMinutes, msg.sender, false);
+    bytes32[] memory _inputData;
+    services[serviceCount] = Service(serviceCount, _name, _price, _timeInMinutes, _inputData, msg.sender, false);
     // trigger an event
     emit ServiceCreated(serviceCount, _name, _price, _timeInMinutes, msg.sender, false);
   }
@@ -79,6 +82,8 @@ contract Marketplace {
     require(_seller != msg.sender);
     // Require that the input data in not null
     require(_inputData.length > 0);
+    // assign the received input data inside the service
+    _service.inputData = _inputData;
     // transfer ownership to the buyer
     _service.owner = msg.sender;
     // mark as purchased
@@ -88,7 +93,7 @@ contract Marketplace {
     // pay the seller by sending them Ether
     address(_seller).transfer(msg.value);
     // trigger an event
-    emit ServicePurchased(_id, _service.name, _service.price, _service.timeInMinutes, msg.sender, true);
+    emit ServicePurchased(_id, _service.name, _service.price, _service.timeInMinutes, _inputData, msg.sender, true);
   }
 
   function removeService(uint _id) public {
@@ -106,7 +111,6 @@ contract Marketplace {
     delete services[_id];
     //decrease serviceCount
     serviceCount--;
-
     // trigger an event
     emit ServiceRemoved(_id, _service.name, _service.price, _service.timeInMinutes, msg.sender);
   }

@@ -1,6 +1,25 @@
 import React, { Component } from 'react';
+import Web3 from 'web3'
 
 class Main extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      inputValue: ''
+    };
+  }
+
+  updateInputValue(evt) {
+    this.setState({
+      inputDataAsString: evt.target.value
+    });
+  }
+
+  parseInputValueToArray(inputString) {
+    let jsonObject = JSON.parse(inputString);
+    return jsonObject.tasks
+  }
 
   render() {
     return (
@@ -67,12 +86,15 @@ class Main extends Component {
                   <td>{service.timeInMinutes.toString()}</td>
                   <td>{service.owner}</td>
                   <td>
-                    { !service.purchased
+                    {
+                      !service.purchased
                       ? <button
                           name={service.id}
                           value={service.price}
                           onClick={(event) => {
-                            this.props.purchaseService(event.target.name, event.target.value)
+                            this.props.purchaseService(event.target.name,
+                                                       event.target.value,
+                                                       this.parseInputValueToArray(this.state.inputDataAsString))
                           }}
                         >
                           Buy
@@ -100,11 +122,13 @@ class Main extends Component {
                       <input
                         id="input"
                         type="text"
-                        ref={(input) => { this.serviceInput = input }}
+                        style={{width: "350px"}}
+                        value={this.state.inputDataAsString}
+                        onChange={evt => this.updateInputValue(evt)}
                         className="form-control"
-                        placeholder="Input data"
+                        placeholder="Input JSON data"
                         required />
-                        : null
+                        : service.inputData
                       }
                       </td>
                 </tr>

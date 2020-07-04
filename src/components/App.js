@@ -74,9 +74,9 @@ class App extends Component {
     })
   }
 
-  purchaseService(id ,price){
+  purchaseService(id , price, inputData){
     this.setState({loading: true})
-    this.state.marketplace.methods.purchaseService(id).send({from: this.state.account, value: price}).on('confirmation', (receipt) => {
+    this.state.marketplace.methods.purchaseService(id, inputData).send({from: this.state.account, value: price}).on('confirmation', (receipt) => {
       this.setState({loading: false})
       window.location.reload()
     })
