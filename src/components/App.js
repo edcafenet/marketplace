@@ -66,9 +66,9 @@ class App extends Component {
     this.removeService = this.removeService.bind(this)
   }
 
-  createService(name,price){
+  createService(name,price, time){
     this.setState({loading: true})
-    this.state.marketplace.methods.createService(name,price).send({from: this.state.account}).on('confirmation', (receipt) => {
+    this.state.marketplace.methods.createService(name,price, time).send({from: this.state.account}).on('confirmation', (receipt) => {
       this.setState({loading: false})
       window.location.reload()
     })

@@ -71,14 +71,22 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
       oldSellerBalance = await web3.eth.getBalance(seller)
       oldSellerBalance = new web3.utils.BN(oldSellerBalance)
 
+      let merkleTree = ['0x7465737400000000000000000000000000000000000000000000000000000000',
+                        '0x7465737400000000000000000000000000000000000000000000000000000000',
+                        '0x7465737400000000000000000000000000000000000000000000000000000000']
+
+      // FAILURE: Buyer tries to buy the service with empty input data
+      await marketplace.purchaseService(serviceCount, [], {from: buyer, value:web3.utils.toWei('1','Ether')}).should.be.rejected
+
       // SUCCESS: Buyer makes purchase
-      result = await marketplace.purchaseService(serviceCount, {from: buyer, value:web3.utils.toWei('1','Ether')})
+      result = await marketplace.purchaseService(serviceCount, merkleTree, {from: buyer, value:web3.utils.toWei('1','Ether')})
 
       // Check logs
       const event = result.logs[0].args
       assert.equal(event.id.toNumber(), serviceCount.toNumber(), 'id is correct')
       assert.equal(event.name, 'iPhone X', 'name is correct')
       assert.equal(event.price, '1000000000000000000', 'price is correct')
+      assert.equal(event.timeInMinutes, '30', 'time duration is correct')
       assert.equal(event.owner, buyer, 'owner is correct')
       assert.equal(event.purchased, true, 'purchased is correct')
 
@@ -95,13 +103,13 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
       assert.equal(newSellerBalance.toString(), expectedBalance.toString())
 
       // FAILURE: Tries to buy a service that does not exist service needs a valid id
-      await marketplace.purchaseService(99, {from: buyer, value:web3.utils.toWei('1','Ether')}).should.be.rejected
+      await marketplace.purchaseService(99, merkleTree, {from: buyer, value:web3.utils.toWei('1','Ether')}).should.be.rejected
       // FAILURE: Tries to buy a service with not enough Ether
-      await marketplace.purchaseService(serviceCount, {from: buyer, value:web3.utils.toWei('0.5','Ether')}).should.be.rejected
+      await marketplace.purchaseService(serviceCount, merkleTree, {from: buyer, value:web3.utils.toWei('0.5','Ether')}).should.be.rejected
       // FAILURE: Deployer tries to buy a service i.e., service cannot be purchased twice
-      await marketplace.purchaseService(serviceCount, {from: deployer, value:web3.utils.toWei('1','Ether')}).should.be.rejected
+      await marketplace.purchaseService(serviceCount, merkleTree, {from: deployer, value:web3.utils.toWei('1','Ether')}).should.be.rejected
       // FAILURE: Buyer tries to buy the service again i.e., buyer cannot not be seller
-      await marketplace.purchaseService(serviceCount, {from: buyer, value:web3.utils.toWei('0.5','Ether')}).should.be.rejected
+      await marketplace.purchaseService(serviceCount, merkleTree, {from: buyer, value:web3.utils.toWei('0.5','Ether')}).should.be.rejected
     })
 
     it('remove services', async () =>{

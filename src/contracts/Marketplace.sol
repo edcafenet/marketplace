@@ -64,7 +64,7 @@ contract Marketplace {
     emit ServiceCreated(serviceCount, _name, _price, _timeInMinutes, msg.sender, false);
   }
 
-  function purchaseService(uint _id) public payable {
+  function purchaseService(uint _id, bytes32[] memory _inputData) public payable {
     //fetch the services
     Service memory _service = services[_id];
     //fetch the owner
@@ -77,6 +77,8 @@ contract Marketplace {
     require(!_service.purchased);
     // Require that the buyer is different from the seller
     require(_seller != msg.sender);
+    // Require that the input data in not null
+    require(_inputData.length > 0);
     // transfer ownership to the buyer
     _service.owner = msg.sender;
     // mark as purchased
