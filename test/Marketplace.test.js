@@ -30,7 +30,7 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
   describe('services', async () =>{
     let result, serviceCount
     before(async () => {
-      result = await marketplace.createService('iPhone X', web3.utils.toWei('1','Ether'), 30, {from:seller})
+      result = await marketplace.createService('16 epucks work', web3.utils.toWei('1','Ether'), 30, {from:seller})
       serviceCount = await marketplace.serviceCount()
     })
 
@@ -39,7 +39,7 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
       assert.equal(serviceCount,1)
       const event = result.logs[0].args
       assert.equal(event.id.toNumber(), serviceCount.toNumber(), 'id is correct')
-      assert.equal(event.name, 'iPhone X', 'name is correct')
+      assert.equal(event.name, '16 epucks work', 'name is correct')
       assert.equal(event.price, '1000000000000000000', 'price is correct')
       assert.equal(event.timeInMinutes, '30', 'time duration is correct')
       assert.equal(event.owner, seller, 'owner is correct')
@@ -49,16 +49,16 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
       // Service must have a name
       await await marketplace.createService('', web3.utils.toWei('1','Ether'), {from:seller}).should.be.rejected;
       // Service must have a price above 0
-      await await marketplace.createService('IPhone X', 0, {from:seller}).should.be.rejected;
+      await await marketplace.createService('16 epucks work', 0, {from:seller}).should.be.rejected;
       // Service must have a time duration above 0
-      await await marketplace.createService('IPhone X',  web3.utils.toWei('1','Ether'), 0, {from:seller}).should.be.rejected;
+      await await marketplace.createService('16 epucks work',  web3.utils.toWei('1','Ether'), 0, {from:seller}).should.be.rejected;
 
     })
 
     it('list services', async () =>{
       const service = await marketplace.services(serviceCount)
       assert.equal(service.id.toNumber(), serviceCount.toNumber(), 'id is correct')
-      assert.equal(service.name, 'iPhone X', 'name is correct')
+      assert.equal(service.name, '16 epucks work', 'name is correct')
       assert.equal(service.price, '1000000000000000000', 'price is correct')
       assert.equal(service.timeInMinutes, '30', 'time duration is correct')
       assert.equal(service.owner, seller, 'owner is correct')
@@ -71,24 +71,27 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
       oldSellerBalance = await web3.eth.getBalance(seller)
       oldSellerBalance = new web3.utils.BN(oldSellerBalance)
 
-      let merkleTree = ['0x7465737400000000000000000000000000000000000000000000000000000000',
-                        '0x7465737400000000000000000000000000000000000000000000000000000000',
-                        '0x7465737400000000000000000000000000000000000000000000000000000000']
-
       // FAILURE: Buyer tries to buy the service with empty input data
       await marketplace.purchaseService(serviceCount, [], {from: buyer, value:web3.utils.toWei('1','Ether')}).should.be.rejected
 
       // SUCCESS: Buyer makes purchase
+      // Dummy merkle tree to prepare the inputData variable
+      let merkleTree = ['0x7465737400000000000000000000000000000000000000000000000000000000',
+                        '0x7465737400000000000000000000000000000000000000000000000000000000',
+                        '0x7465737400000000000000000000000000000000000000000000000000000000']
+
       result = await marketplace.purchaseService(serviceCount, merkleTree, {from: buyer, value:web3.utils.toWei('1','Ether')})
 
       // Check logs
       const event = result.logs[0].args
       assert.equal(event.id.toNumber(), serviceCount.toNumber(), 'id is correct')
-      assert.equal(event.name, 'iPhone X', 'name is correct')
+      assert.equal(event.name, '16 epucks work', 'name is correct')
       assert.equal(event.price, '1000000000000000000', 'price is correct')
       assert.equal(event.timeInMinutes, '30', 'time duration is correct')
       assert.equal(event.owner, buyer, 'owner is correct')
       assert.equal(event.purchased, true, 'purchased is correct')
+      // Check that the input data is there
+      assert.deepEqual(event.inputData, merkleTree, 'input data is correct')
 
       // Check that seller received funds
       let newSellerBalance
@@ -115,7 +118,7 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
     it('remove services', async () =>{
       // SUCCESS
       // Create a service that was not bought previously
-      let resultCreateService = await marketplace.createService('iPhone XI', web3.utils.toWei('1','Ether'), 30,  {from:seller})
+      let resultCreateService = await marketplace.createService('32 epucks work', web3.utils.toWei('1','Ether'), 30,  {from:seller})
       const event = resultCreateService.logs[0].args
       let serviceCountBefore = await marketplace.serviceCount()
       result = await marketplace.removeService(event.id.toNumber(), {from:seller});
@@ -130,6 +133,22 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
 
       // Service cannot be erased from buyer
       await await marketplace.removeService(0,{from:buyer}).should.be.rejected;
+     })
+
+     it('get merkle tree from purchased services', async () =>{
+       // SUCCESS
+       let resultCreateService = await marketplace.createService('32 epucks work', web3.utils.toWei('1','Ether'), 30,  {from:seller})
+       let serviceCount = await marketplace.serviceCount()
+
+       let merkleTreeInput = ['0x7465737400000000000000000000000000000000000000000000000000000000',
+                              '0x7465737400000000000000000000000000000000000000000000000000000000',
+                              '0x7465737400000000000000000000000000000000000000000000000000000000']
+
+       let resultPurchaseService = await marketplace.purchaseService(serviceCount, merkleTreeInput, {from: buyer, value:web3.utils.toWei('1','Ether')})
+       let merkleTreeReceived = await marketplace.getInputDataOfServiceId(serviceCount)
+       // Check that the input data is the one received is the same
+       assert.deepEqual(merkleTreeReceived, merkleTreeInput, 'received data is correct')
+
      })
   })
 })

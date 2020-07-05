@@ -61,8 +61,7 @@ contract Marketplace {
     // increment service count
     serviceCount++;
     // create a service
-    bytes32[] memory _inputData;
-    services[serviceCount] = Service(serviceCount, _name, _price, _timeInMinutes, _inputData, msg.sender, false);
+    services[serviceCount] = Service(serviceCount, _name, _price, _timeInMinutes, new bytes32[](0), msg.sender, false);
     // trigger an event
     emit ServiceCreated(serviceCount, _name, _price, _timeInMinutes, msg.sender, false);
   }
@@ -113,5 +112,9 @@ contract Marketplace {
     serviceCount--;
     // trigger an event
     emit ServiceRemoved(_id, _service.name, _service.price, _service.timeInMinutes, msg.sender);
+  }
+
+  function getInputDataOfServiceId(uint _id) public view returns (bytes32[] memory) {
+    return services[_id].inputData;
   }
 }
