@@ -17,7 +17,7 @@ class Main extends Component {
   }
 
   parseInputValueToArray(inputString) {
-    let jsonObject = JSON.parse(inputString);
+    let jsonObject = JSON.parse(inputString)
     return jsonObject.tasks
   }
 
