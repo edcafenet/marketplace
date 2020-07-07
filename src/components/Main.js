@@ -24,7 +24,7 @@ class Main extends Component {
   render() {
     return (
       <div id="content">
-        <h1>Add Service</h1>
+        <h1>Add service</h1>
         <form onSubmit={(event) => {
           event.preventDefault()
           const name = this.serviceName.value
@@ -62,7 +62,7 @@ class Main extends Component {
           <button type="submit" className="btn btn-primary">Add Service</button>
         </form>
         <p>&nbsp;</p>
-        <h2>Buy Service</h2>
+        <h2>Buy service</h2>
         <table className="table">
           <thead>
             <tr>
@@ -122,7 +122,7 @@ class Main extends Component {
                       <input
                         id="input"
                         type="text"
-                        style={{width: "350px"}}
+                        style={{width: "300px"}}
                         value={this.state.inputDataAsString}
                         onChange={evt => this.updateInputValue(evt)}
                         className="form-control"

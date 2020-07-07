@@ -8,7 +8,7 @@ contract Marketplace {
     string name;
     uint price;
     uint timeInMinutes;
-    bytes32[] inputData;
+    bytes32[] data;
     address payable owner;
     bool purchased;
   }
@@ -32,7 +32,7 @@ contract Marketplace {
     string name,
     uint price,
     uint timeInMinutes,
-    bytes32[] inputData,
+    bytes32[] data,
     address payable owner,
     bool purchased
   );
@@ -66,7 +66,7 @@ contract Marketplace {
     emit ServiceCreated(serviceCount, _name, _price, _timeInMinutes, msg.sender, false);
   }
 
-  function purchaseService(uint _id, bytes32[] memory _inputData) public payable {
+  function purchaseService(uint _id, bytes32[] memory _data) public payable {
     //fetch the services
     Service memory _service = services[_id];
     //fetch the owner
@@ -80,9 +80,9 @@ contract Marketplace {
     // Require that the buyer is different from the seller
     require(_seller != msg.sender);
     // Require that the input data in not null
-    require(_inputData.length > 0);
+    require(_data.length > 0);
     // assign the received input data inside the service
-    _service.inputData = _inputData;
+    _service.data = _data;
     // transfer ownership to the buyer
     _service.owner = msg.sender;
     // mark as purchased
@@ -92,7 +92,7 @@ contract Marketplace {
     // pay the seller by sending them Ether
     address(_seller).transfer(msg.value);
     // trigger an event
-    emit ServicePurchased(_id, _service.name, _service.price, _service.timeInMinutes, _inputData, msg.sender, true);
+    emit ServicePurchased(_id, _service.name, _service.price, _service.timeInMinutes, _data, msg.sender, true);
   }
 
   function removeService(uint _id) public {
@@ -115,6 +115,6 @@ contract Marketplace {
   }
 
   function getInputDataOfServiceId(uint _id) public view returns (bytes32[] memory) {
-    return services[_id].inputData;
+    return services[_id].data;
   }
 }

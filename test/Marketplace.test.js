@@ -52,7 +52,6 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
       await await marketplace.createService('16 epucks work', 0, {from:seller}).should.be.rejected;
       // Service must have a time duration above 0
       await await marketplace.createService('16 epucks work',  web3.utils.toWei('1','Ether'), 0, {from:seller}).should.be.rejected;
-
     })
 
     it('list services', async () =>{
@@ -91,7 +90,7 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
       assert.equal(event.owner, buyer, 'owner is correct')
       assert.equal(event.purchased, true, 'purchased is correct')
       // Check that the input data is there
-      assert.deepEqual(event.inputData, merkleTree, 'input data is correct')
+      assert.deepEqual(event.data, merkleTree, 'input data is correct')
 
       // Check that seller received funds
       let newSellerBalance
@@ -149,6 +148,13 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
        // Check that the input data is the one received is the same
        assert.deepEqual(merkleTreeReceived, merkleTreeInput, 'received data is correct')
 
+       // FAILURE
+       resultCreateService = await marketplace.createService('32 epucks work', web3.utils.toWei('1','Ether'), 30,  {from:seller})
+       serviceCount = await marketplace.serviceCount()
+       merkleTreeReceived = await marketplace.getInputDataOfServiceId(serviceCount)
+       const event = resultCreateService.logs[0].args
+       assert.equal(event.purchased, false, 'purchased is correct')
+       assert.deepEqual(merkleTreeReceived, [], 'there is no merkle tree input data')
      })
   })
 })

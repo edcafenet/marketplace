@@ -1,0 +1,17 @@
+[
+  {
+    "original" : "images/tree.jpg",
+    "description" : "tadasdasdas"
+  },
+
+  {
+    "description": "gif",
+    "original" : "images/test_gif.gif"
+  },
+  {
+      "original": "images/tree.jpg",
+      "embedUrl": "https://www.youtube.com/embed/4pSzhZ76GdM?autoplay=1&showinfo=0",
+      "description": "Render custom slides within the gallery",
+      "renderItem": true
+    }
+]

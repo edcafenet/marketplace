@@ -1,1 +1,27 @@
 /* Styles go here */
+#parent {
+    margin: 0;
+    width: 100%;
+}
+.left {
+    float: left;
+    width: 60%;
+}
+.right {
+    overflow: hidden;
+    width: 40%;
+}
+
+iframe {
+    width:100%;
+    height:500px;
+}
+fieldset, legend {
+    margin:0;
+    padding:0;
+    width:100%;
+    height:100%;
+}
+
+/* Styles for the gallery */
+@import "~react-image-gallery/styles/css/image-gallery.css";

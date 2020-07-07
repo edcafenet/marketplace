@@ -4,6 +4,7 @@ import './App.css';
 import Marketplace from '../abis/Marketplace.json'
 import Navbar from './Navbar.js'
 import Main from './Main.js'
+import Gallery from './Gallery.js'
 
 class App extends Component {
 
@@ -74,9 +75,9 @@ class App extends Component {
     })
   }
 
-  purchaseService(id , price, inputData){
+  purchaseService(id , price, data){
     this.setState({loading: true})
-    this.state.marketplace.methods.purchaseService(id, inputData).send({from: this.state.account, value: price}).on('confirmation', (receipt) => {
+    this.state.marketplace.methods.purchaseService(id, data).send({from: this.state.account, value: price}).on('confirmation', (receipt) => {
       this.setState({loading: false})
       window.location.reload()
     })
@@ -95,7 +96,7 @@ class App extends Component {
       <div>
         <Navbar account={this.state.account}/>
         <div className="container-fluid mt-5">
-          <div className="row">
+          <div className="left">
             <main role="main" className="col-lg-12 d-flex">
                {this.state.loading
                  ? <div id="loader" className="text-center"><p className="text-center">Loading ...</p></div>
@@ -106,6 +107,11 @@ class App extends Component {
                   createService={this.createService}
                   removeService = {this.removeService}/>}
             </main>
+           </div>
+           <div className="right">
+            <gallery role="gallery">
+             {<Gallery/>}
+           </gallery>
            </div>
         </div>
       </div>
