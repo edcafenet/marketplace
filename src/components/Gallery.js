@@ -3,9 +3,8 @@ import { render } from 'react-dom';
 import ImageGallery from 'react-image-gallery';
 
 const request = require('request');
-var url = 'http://192.168.1.29:3000/media.json';
+var url = 'http://localhost:3000/media.json';
 var jsonObject;
-var images = [];
 
 class Gallery extends React.Component {
 

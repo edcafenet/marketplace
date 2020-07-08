@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Web3 from 'web3'
 
 class Main extends Component {
 
@@ -87,7 +86,7 @@ class Main extends Component {
                   <td>{service.owner}</td>
                   <td>
                     {
-                      !service.purchased
+                      !service.purchased && service.owner !== this.props.account
                       ? <button
                           name={service.id}
                           value={service.price}
@@ -128,7 +127,7 @@ class Main extends Component {
                         className="form-control"
                         placeholder="Input JSON data"
                         required />
-                        : service.inputData
+                        : service.data
                       }
                       </td>
                 </tr>

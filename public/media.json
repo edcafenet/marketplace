@@ -1,17 +1,8 @@
 [
   {
-    "original" : "images/tree.jpg",
-    "description" : "tadasdasdas"
-  },
-
-  {
-    "description": "gif",
-    "original" : "images/test_gif.gif"
-  },
-  {
-      "original": "images/tree.jpg",
-      "embedUrl": "https://www.youtube.com/embed/4pSzhZ76GdM?autoplay=1&showinfo=0",
-      "description": "Render custom slides within the gallery",
+      "original": "images/a47c4a60b4f4cc5ed8a482d5c4f4d25fff237f1b1d8ba5750f63eae1d829557.png",
+      "embedUrl": "https://www.youtube.com/embed/V_lxIcS5w5Q",
+      "description": "a47c4a60b4f4cc5ed8a482d5c4f4d25fff237f1b1d8ba5750f63eae1d829557",
       "renderItem": true
     }
 ]
