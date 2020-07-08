@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
+import FileUploader from './FileUploader.js'
 
 class Main extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      inputDataAsString: ''
+      InputTasks: [],
+      InputTasksLoaded: false
     };
+      this.handleInputFile = this.handleInputFile.bind(this)
   }
 
   updateInputValue(evt) {
@@ -18,6 +21,18 @@ class Main extends Component {
   parseInputValueToArray(inputString) {
     let jsonObject = JSON.parse(inputString)
     return jsonObject.tasks
+  }
+
+  onReaderLoad(event){
+    var jsonObject = JSON.parse(event.target.result)
+    this.setState({InputTasks : jsonObject.tasks})
+    this.setState({InputTasksLoaded : true})
+  }
+
+  handleInputFile(inputFile) {
+    var reader = new FileReader();
+    reader.readAsText(inputFile);
+    reader.onload = this.onReaderLoad.bind(this);
   }
 
   render() {
@@ -86,14 +101,14 @@ class Main extends Component {
                   <td>{service.owner}</td>
                   <td>
                     {
-                      !service.purchased && service.owner !== this.props.account
+                      !service.purchased && service.owner !== this.props.account && this.state.InputTasksLoaded
                       ? <button
                           name={service.id}
                           value={service.price}
                           onClick={(event) => {
                             this.props.purchaseService(event.target.name,
                                                        event.target.value,
-                                                       this.parseInputValueToArray(this.state.inputDataAsString))
+                                                       this.state.InputTasks)
                           }}
                         >
                           Buy
@@ -118,16 +133,8 @@ class Main extends Component {
                       <td>
                       { !service.purchased && service.owner !== this.props.account
                         ?
-                      <input
-                        id="input"
-                        type="text"
-                        style={{width: "300px"}}
-                        value={this.state.inputDataAsString}
-                        onChange={evt => this.updateInputValue(evt)}
-                        className="form-control"
-                        placeholder="Input JSON data"
-                        required />
-                        : service.data
+                        <FileUploader {...this.props}
+                        handleInputFile = {this.handleInputFile} /> : null
                       }
                       </td>
                 </tr>

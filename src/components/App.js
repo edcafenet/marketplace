@@ -104,7 +104,7 @@ class App extends Component {
                   account = {this.state.account}
                   services = {this.state.services}
                   purchaseService = {this.purchaseService}
-                  createService={this.createService}
+                  createService ={this.createService}
                   removeService = {this.removeService}/>}
             </main>
            </div>
