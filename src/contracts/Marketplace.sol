@@ -9,6 +9,7 @@ contract Marketplace {
     uint price;
     uint timeInMinutes;
     bytes32[] data;
+    bytes32 root;
     address payable owner;
     bool purchased;
   }
@@ -33,6 +34,7 @@ contract Marketplace {
     uint price,
     uint timeInMinutes,
     bytes32[] data,
+    bytes32 root,
     address payable owner,
     bool purchased
   );
@@ -61,12 +63,12 @@ contract Marketplace {
     // increment service count
     serviceCount++;
     // create a service
-    services[serviceCount] = Service(serviceCount, _name, _price, _timeInMinutes, new bytes32[](0), msg.sender, false);
+    services[serviceCount] = Service(serviceCount, _name, _price, _timeInMinutes, new bytes32[](0), '', msg.sender, false);
     // trigger an event
     emit ServiceCreated(serviceCount, _name, _price, _timeInMinutes, msg.sender, false);
   }
 
-  function purchaseService(uint _id, bytes32[] memory _data) public payable {
+  function purchaseService(uint _id, bytes32[] memory _data, bytes32 _root) public payable {
     //fetch the services
     Service memory _service = services[_id];
     //fetch the owner
@@ -81,8 +83,12 @@ contract Marketplace {
     require(_seller != msg.sender);
     // Require that the input data in not null
     require(_data.length > 0);
+    // Require that the root of the MT in not null
+    require(_root != 0);
     // assign the received input data inside the service
     _service.data = _data;
+    // assign the received MT root inside the service
+    _service.root = _root;
     // transfer ownership to the buyer
     _service.owner = msg.sender;
     // mark as purchased
@@ -92,7 +98,7 @@ contract Marketplace {
     // pay the seller by sending them Ether
     address(_seller).transfer(msg.value);
     // trigger an event
-    emit ServicePurchased(_id, _service.name, _service.price, _service.timeInMinutes, _data, msg.sender, true);
+    emit ServicePurchased(_id, _service.name, _service.price, _service.timeInMinutes, _data, _root, msg.sender, true);
   }
 
   function removeService(uint _id) public {
@@ -116,5 +122,9 @@ contract Marketplace {
 
   function getInputDataOfServiceId(uint _id) public view returns (bytes32[] memory) {
     return services[_id].data;
+  }
+
+  function getRootOfServiceId(uint _id) public view returns (bytes32) {
+    return services[_id].root;
   }
 }

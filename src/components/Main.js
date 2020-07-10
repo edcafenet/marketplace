@@ -7,26 +7,17 @@ class Main extends Component {
     super(props);
     this.state = {
       InputTasks: [],
-      InputTasksLoaded: false
+      InputRoot: '',
+      InputFileLoaded: false
     };
       this.handleInputFile = this.handleInputFile.bind(this)
-  }
-
-  updateInputValue(evt) {
-    this.setState({
-      inputDataAsString: evt.target.value
-    });
-  }
-
-  parseInputValueToArray(inputString) {
-    let jsonObject = JSON.parse(inputString)
-    return jsonObject.tasks
   }
 
   onReaderLoad(event){
     var jsonObject = JSON.parse(event.target.result)
     this.setState({InputTasks : jsonObject.tasks})
-    this.setState({InputTasksLoaded : true})
+    this.setState({InputRoot : jsonObject.root})
+    this.setState({InputFileLoaded : true})
   }
 
   handleInputFile(inputFile) {
@@ -99,16 +90,18 @@ class Main extends Component {
                   <td>{window.web3.utils.fromWei(service.price.toString(), 'Ether')} Eth</td>
                   <td>{service.timeInMinutes.toString()}</td>
                   <td>{service.owner}</td>
+
                   <td>
                     {
-                      !service.purchased && service.owner !== this.props.account && this.state.InputTasksLoaded
+                      !service.purchased && service.owner !== this.props.account && this.state.InputFileLoaded
                       ? <button
                           name={service.id}
                           value={service.price}
                           onClick={(event) => {
                             this.props.purchaseService(event.target.name,
                                                        event.target.value,
-                                                       this.state.InputTasks)
+                                                       this.state.InputTasks,
+                                                       this.state.InputRoot)
                           }}
                         >
                           Buy
