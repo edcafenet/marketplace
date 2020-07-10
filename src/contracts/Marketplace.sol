@@ -38,6 +38,7 @@ contract Marketplace {
     uint timeInMinutes,
     bytes32 root,
     bytes32[] tasks,
+    address payable seller,
     address payable owner,
     bool purchased
   );
@@ -112,7 +113,10 @@ contract Marketplace {
     // pay the seller by sending them Ether
     address(_service.seller).transfer(msg.value);
     // trigger an event
-    emit ServicePurchased(_id, _service.name, _service.price, _service.timeInMinutes, _root, _tasks, msg.sender, true);
+    emit ServicePurchased(_id, _service.name, _service.price, _service.timeInMinutes,
+                          _root, _tasks,
+                          _service.seller, _service.owner,
+                          true);
   }
 
   function removeService(uint _id) public {
@@ -137,8 +141,12 @@ contract Marketplace {
   function setResultsOfServiceId(uint _id, bytes32[] memory _results) public payable {
     // Fetch the service
     Service memory _service = services[_id];
+    // Require that the service has been purchased already
+    require(_service.purchased);
     // Require that the caller is equal to the original seller
     require(_service.seller == msg.sender);
+    // Require that the results' size is two-fold to the task length array
+    require(_results.length == _service.tasks.length * 2);
     // Set results inside the service instance
     _service.results = _results;
     // Update the service
