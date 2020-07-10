@@ -42,6 +42,7 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
       assert.equal(event.name, '16 epucks work', 'name is correct')
       assert.equal(event.price, '1000000000000000000', 'price is correct')
       assert.equal(event.timeInMinutes, '30', 'time duration is correct')
+      assert.equal(event.seller, seller, 'seller is correct')
       assert.equal(event.owner, seller, 'owner is correct')
       assert.equal(event.purchased, false, 'purchased is correct')
 
@@ -70,13 +71,13 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
       oldSellerBalance = await web3.eth.getBalance(seller)
       oldSellerBalance = new web3.utils.BN(oldSellerBalance)
 
-      // Dummy merkle tree to prepare the data and root variables
+      // Dummy merkle tree to prepare the tasks and root variables
       let merkleTree = { "root" : "0xda47c4a60b4f4cc5ed8a482d5c4f4d25fff237f1b1d8ba5750f63eae1d829557",
                           "tasks" : [ "0x15ba8cb4aa8cd69723915b65bb6600c8364938300327e1f597c26bfcae42159e",
                                       "0x6df1daa79c98ca5cbdacff22040d2eee465b0bf2773e5aa72f57344b77eb8df4",
                                       "0xae6747e093e32e995ce264c47eeb9259308444b2ab2ed8cfe43b8fa43aee0f25"] }
 
-      // FAILURE: Buyer tries to buy the service with empty input data
+      // FAILURE: Buyer tries to buy the service with empty input tasks
       await marketplace.purchaseService(serviceCount, [], merkleTree['root'], {from: buyer, value:web3.utils.toWei('1','Ether')}).should.be.rejected
 
       // FAILURE: Buyer tries to buy the service with empty root data
@@ -97,8 +98,8 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
       // Check that the root is there
       assert.deepEqual(event.root, merkleTree['root'], 'root is correct')
 
-      // Check that the input data is there
-      assert.deepEqual(event.data, merkleTree['tasks'], 'data is correct')
+      // Check that the input tasks are there
+      assert.deepEqual(event.tasks, merkleTree['tasks'], 'tasks are correct')
 
       // Check that seller received funds
       let newSellerBalance
@@ -142,9 +143,9 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
       await await marketplace.removeService(0,{from:buyer}).should.be.rejected;
      })
 
-     it('get merkle data and root from purchased services', async () =>{
+     it('get merkle tasks and root from purchased services', async () =>{
 
-       // Dummy merkle tree to prepare the data and root variables
+       // Dummy merkle tree to prepare the tasks and root variables
        let merkleTree = { "root" : "0xda47c4a60b4f4cc5ed8a482d5c4f4d25fff237f1b1d8ba5750f63eae1d829557",
                            "tasks" : [ "0x15ba8cb4aa8cd69723915b65bb6600c8364938300327e1f597c26bfcae42159e",
                                        "0x6df1daa79c98ca5cbdacff22040d2eee465b0bf2773e5aa72f57344b77eb8df4",
@@ -154,21 +155,21 @@ contract('Marketplace', ([deployer, seller, buyer]) => {
        let resultCreateService = await marketplace.createService('32 epucks work', web3.utils.toWei('1','Ether'), 30,  {from:seller})
        let serviceCount = await marketplace.serviceCount()
        let resultPurchaseService = await marketplace.purchaseService(serviceCount, merkleTree['tasks'], merkleTree['root'], {from: buyer, value:web3.utils.toWei('1','Ether')})
-       let merkleTreeDataReceived = await marketplace.getInputDataOfServiceId(serviceCount)
+       let merkleTreeDataReceived = await marketplace.getTasksOfServiceId(serviceCount)
        let merkleTreeRootReceived = await marketplace.getRootOfServiceId(serviceCount)
 
-       // Check that the input data is the one received is the same
-       assert.deepEqual(merkleTreeDataReceived, merkleTree['tasks'], 'received data is correct')
+       // Check that the input tasks are the ones received
+       assert.deepEqual(merkleTreeDataReceived, merkleTree['tasks'], 'received tasks are correct')
        assert.equal(merkleTreeRootReceived, merkleTree['root'], 'received root is correct')
 
        // FAILURE
        resultCreateService = await marketplace.createService('32 epucks work', web3.utils.toWei('1','Ether'), 30,  {from:seller})
        serviceCount = await marketplace.serviceCount()
-       merkleTreeDataReceived = await marketplace.getInputDataOfServiceId(serviceCount)
+       merkleTreeDataReceived = await marketplace.getTasksOfServiceId(serviceCount)
        merkleTreeRootReceived = await marketplace.getRootOfServiceId(serviceCount)
        const event = resultCreateService.logs[0].args
        assert.equal(event.purchased, false, 'purchased is correct')
-       assert.deepEqual(merkleTreeDataReceived, [], 'there is no merkle tree input data')
+       assert.deepEqual(merkleTreeDataReceived, [], 'there are no merkle tree input tasks')
        assert.equal(merkleTreeRootReceived, 0, 'there is no merkle tree root data')
      })
   })

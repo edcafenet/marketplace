@@ -8,8 +8,10 @@ contract Marketplace {
     string name;
     uint price;
     uint timeInMinutes;
-    bytes32[] data;
     bytes32 root;
+    bytes32[] tasks;
+    bytes32[] results;
+    address payable seller;
     address payable owner;
     bool purchased;
   }
@@ -23,28 +25,42 @@ contract Marketplace {
     string name,
     uint price,
     uint timeInMinutes,
+    address payable seller,
     address payable owner,
     bool purchased
   );
 
-  // Log event for paying a service
+  // Log event for purchasing a service
   event ServicePurchased(
     uint id,
     string name,
     uint price,
     uint timeInMinutes,
-    bytes32[] data,
     bytes32 root,
+    bytes32[] tasks,
     address payable owner,
     bool purchased
   );
 
-  // Log event for paying a service
+  // Log event for removing a service
   event ServiceRemoved(
     uint id,
     string name,
     uint price,
     uint timeInMinutes,
+    address payable owner
+  );
+
+  // Log event for availability of results in service
+  event ServiceResults(
+    uint id,
+    string name,
+    uint price,
+    uint timeInMinutes,
+    bytes32 root,
+    bytes32[] tasks,
+    bytes32[] results,
+    address payable seller,
     address payable owner
   );
 
@@ -63,16 +79,14 @@ contract Marketplace {
     // increment service count
     serviceCount++;
     // create a service
-    services[serviceCount] = Service(serviceCount, _name, _price, _timeInMinutes, new bytes32[](0), '', msg.sender, false);
+    services[serviceCount] = Service(serviceCount, _name, _price, _timeInMinutes, '', new bytes32[](0), new bytes32[](0), msg.sender, msg.sender, false);
     // trigger an event
-    emit ServiceCreated(serviceCount, _name, _price, _timeInMinutes, msg.sender, false);
+    emit ServiceCreated(serviceCount, _name, _price, _timeInMinutes, msg.sender, msg.sender, false);
   }
 
-  function purchaseService(uint _id, bytes32[] memory _data, bytes32 _root) public payable {
+  function purchaseService(uint _id, bytes32[] memory _tasks, bytes32 _root) public payable {
     //fetch the services
     Service memory _service = services[_id];
-    //fetch the owner
-    address payable _seller = _service.owner;
     //make sure the service has a valid id
     require(_service.id > 0 && _service.id <= serviceCount);
     // require that there is enough Ether in the transaction
@@ -80,13 +94,13 @@ contract Marketplace {
     // Require that the service has not been purchased already
     require(!_service.purchased);
     // Require that the buyer is different from the seller
-    require(_seller != msg.sender);
-    // Require that the input data in not null
-    require(_data.length > 0);
+    require(_service.seller != msg.sender);
+    // Require that the input tasks are not null
+    require(_tasks.length > 0);
     // Require that the root of the MT in not null
     require(_root != 0);
-    // assign the received input data inside the service
-    _service.data = _data;
+    // assign the received input tasks inside the service
+    _service.tasks = _tasks;
     // assign the received MT root inside the service
     _service.root = _root;
     // transfer ownership to the buyer
@@ -96,9 +110,9 @@ contract Marketplace {
     // Update the service
     services[_id] = _service;
     // pay the seller by sending them Ether
-    address(_seller).transfer(msg.value);
+    address(_service.seller).transfer(msg.value);
     // trigger an event
-    emit ServicePurchased(_id, _service.name, _service.price, _service.timeInMinutes, _data, _root, msg.sender, true);
+    emit ServicePurchased(_id, _service.name, _service.price, _service.timeInMinutes, _root, _tasks, msg.sender, true);
   }
 
   function removeService(uint _id) public {
@@ -120,8 +134,23 @@ contract Marketplace {
     emit ServiceRemoved(_id, _service.name, _service.price, _service.timeInMinutes, msg.sender);
   }
 
-  function getInputDataOfServiceId(uint _id) public view returns (bytes32[] memory) {
-    return services[_id].data;
+  function setResultsOfServiceId(uint _id, bytes32[] memory _results) public payable {
+    // Fetch the service
+    Service memory _service = services[_id];
+    // Require that the caller is equal to the original seller
+    require(_service.seller == msg.sender);
+    // Set results inside the service instance
+    _service.results = _results;
+    // Update the service
+    services[_id] = _service;
+    // trigger the results event
+    emit ServiceResults(_id, _service.name, _service.price, _service.timeInMinutes,
+                        _service.root, _service.tasks, _service.results,
+                        _service.seller, _service.owner);
+  }
+
+  function getTasksOfServiceId(uint _id) public view returns (bytes32[] memory) {
+    return services[_id].tasks;
   }
 
   function getRootOfServiceId(uint _id) public view returns (bytes32) {
