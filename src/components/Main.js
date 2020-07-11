@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import FileUploader from './FileUploader.js'
+import Modal from './Modal.js'
+import MerkleViz from './MerkleViz.js'
 
 class Main extends Component {
 
@@ -8,7 +10,9 @@ class Main extends Component {
     this.state = {
       InputTasks: [],
       InputRoot: '',
-      InputFileLoaded: false
+      InputFileLoaded: false,
+      ShowModal: false,
+      MerkleTree: ''
     };
       this.handleInputFile = this.handleInputFile.bind(this)
   }
@@ -20,10 +24,18 @@ class Main extends Component {
     this.setState({InputFileLoaded : true})
   }
 
-  handleInputFile(inputFile) {
+handleInputFile(inputFile) {
     var reader = new FileReader();
     reader.readAsText(inputFile);
     reader.onload = this.onReaderLoad.bind(this);
+  }
+
+ showModal = () => {
+   this.setState({ ShowModal: true });
+  }
+
+ hideModal = () => {
+   this.setState({ ShowModal: false });
   }
 
   render() {
@@ -94,7 +106,7 @@ class Main extends Component {
                   <td>
                     {
                       !service.purchased && service.owner !== this.props.account && this.state.InputFileLoaded
-                      ? <button
+                      ? <button className="btn btn-primary"
                           name={service.id}
                           value={service.price}
                           onClick={(event) => {
@@ -112,7 +124,7 @@ class Main extends Component {
 
                     <td>
                       { !service.purchased && service.owner === this.props.account
-                        ? <button
+                        ? <button className="btn btn-primary"
                             name={service.id}
                             onClick={(event) => {
                               this.props.removeService(event.target.name)
@@ -127,7 +139,18 @@ class Main extends Component {
                       { !service.purchased && service.owner !== this.props.account
                         ?
                         <FileUploader {...this.props}
-                        handleInputFile = {this.handleInputFile} /> : null
+                        handleInputFile = {this.handleInputFile} />
+                        :
+                        <>
+                        <Modal show={this.state.ShowModal} handleClose={this.hideModal}>
+                          <MerkleViz service_id={service.id.toNumber()}>
+                          </MerkleViz>
+                        </Modal>
+
+                        <button className="btn btn-primary" onClick={this.showModal}>
+                         Results
+                        </button>
+                        </>
                       }
                       </td>
                 </tr>

@@ -16,12 +16,41 @@ iframe {
     width:100%;
     height:500px;
 }
+
 fieldset, legend {
     margin:0;
     padding:0;
     width:100%;
     height:100%;
 }
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+}
+
+.modal-main {
+  position:fixed;
+  background: white;
+  width: 6  0%;
+  height: auto;
+  top:50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+}
+
+.display-block {
+  display: block;
+}
+
+.display-none {
+  display: none;
+}
+
 
 /* Styles for the gallery */
 @import "~react-image-gallery/styles/css/image-gallery.css";

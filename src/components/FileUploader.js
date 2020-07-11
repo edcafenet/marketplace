@@ -12,7 +12,7 @@ const hiddenFileInput = React.useRef(null);
   };
   return (
     <>
-      <button onClick={handleClick}>
+      <button className="btn btn-primary" onClick={handleClick}>
         Upload
       </button>
       <input type="file"
@@ -23,4 +23,5 @@ const hiddenFileInput = React.useRef(null);
     </>
   );
 };
+
 export default FileUploader;
