@@ -26,6 +26,15 @@ class CenteredTree extends Component {
     {
         var results = this.state.json_data[0][this.state.service_id].results;
         var tasks = this.state.json_data[0][this.state.service_id].tasks;
+        var results_str = '';
+        for(var i = 0; i < results.length; i+=2)
+        {
+            var action = results[i];
+            var sensor = results[i+1];
+            results_str += 'Task' + [i/2] + ':' + tasks[i/2] + ' -> ' + 'H(' + action + ',' + sensor + ')' + '\n';
+        }
+
+
         this.state.tree = new MerkleTree(tasks, SHA256)
         this.state.tree_string = this.state.tree.toString()
     }
@@ -34,6 +43,10 @@ class CenteredTree extends Component {
         <div id="treeWrapper" style={{width: '75em', height: '50em'}} ref={tc => (this.treeContainer = tc)}>
           <pre>
             {this.state.tree_string}
+          </pre>
+          <h3><u>Results:</u></h3>
+          <pre>
+          {results_str}
           </pre>
         </div>
     );
