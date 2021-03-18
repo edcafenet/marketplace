@@ -1,6 +1,7 @@
 {
   "name": "eth-marketplace",
   "version": "0.1.0",
+  "homepage": "https://www.blockchainswarm.eu",
   "description": "An Ethereum Marketplace",
   "author": "gregory@dappuniversity.com",
   "dependencies": {
