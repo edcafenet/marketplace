@@ -13,7 +13,10 @@ class Main extends Component {
       InputFileLoaded: false,
       ShowModalArray: [ { name: "first", isActive: false },
                         { name: "second", isActive: false },
-                        { name: "third", isActive: false }]
+                        { name: "third", isActive: false }],
+      EtherScanUrlArray: ['https://rinkeby.etherscan.io/tx/0x4f2f4b0b40ebfc5677d6967244cabe79388d2ffbb20811e1025a66bca3314ed4',
+                          'https://rinkeby.etherscan.io/tx/0xe554770fe2635f94b0e88dee11959e9734ffd3e9646366745c47ab7b00d46940',
+                          'https://rinkeby.etherscan.io/tx/0x0f8cc94b341b4114cb01627b2b2c96d6529278999c60854153219329b10efe72']
     };
       this.handleInputFile = this.handleInputFile.bind(this)
       this.onClick = this.onClick.bind(this)
@@ -109,7 +112,7 @@ handleInputFile(inputFile) {
                   <td>{service.name}</td>
                   <td>{window.web3.utils.fromWei(service.price.toString(), 'Ether')} Eth</td>
                   <td>{service.timeInMinutes.toString()}</td>
-                  <td>{service.owner}</td>
+                  <td><a target="_blank"  href={this.state.EtherScanUrlArray[key]}>{service.owner}</a></td>
 
                   <td>
                     {

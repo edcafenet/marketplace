@@ -3,6 +3,7 @@ import Web3 from 'web3'
 import './App.css';
 import Marketplace from '../abis/Marketplace.json'
 import Navbar from './Navbar.js'
+import Splash from './Splash.js'
 import Main from './Main.js'
 import ReactPlayer from 'react-player'
 
@@ -11,6 +12,12 @@ var url = window.location.href + '/media.json';
 var jsonObjectVideoURLs;
 
 class App extends Component {
+
+componentDidMount() {
+    setTimeout(() => {
+      this.setState({splash: false});
+    }, 1000); // 1000ms = 1 second
+  }
 
   async componentWillMount(){
     await this.loadWeb3()
@@ -66,7 +73,8 @@ class App extends Component {
       account: '',
       serviceCount: 0,
       services: [],
-      loading: true
+      loading: true,
+      splash: true
     }
     this.createService = this.createService.bind(this)
     this.purchaseService = this.purchaseService.bind(this)
@@ -112,6 +120,10 @@ class App extends Component {
         videoURLs.push(jsonObjectVideoURLs[i]["embedUrl"]);
     }
 
+    // if (this.state.splash) {
+    //   return <div><Splash/></div>
+    // }
+
     return (
       <div>
         <Navbar account={this.state.account}/>
@@ -133,6 +145,7 @@ class App extends Component {
             <div className='player-wrapper'>
                <ReactPlayer
                   className='react-player'
+                  playbackRate = '2'
                   controls = 'true'
                   url={videoURLs}
                   width='100%'
