@@ -5,11 +5,13 @@ const Modal = ({ handleClose, show, children }) => {
   return (
     <div className={showHideClassName}>
       <section className="modal-main">
+        <button className="btn btn-primary" style={{float : 'right', paddingRight : '10px', margin: '10px 10px 10px 0', display:'inline-block'}} onClick={handleClose}>Close</button>
         {children}
-        <button className="btn btn-primary" style={{float : 'right', paddingRight : '5px'}} onClick={handleClose}>Close</button>
       </section>
     </div>
   );
 };
+
+Modal.defaultStyles = {}
 
 export default Modal;

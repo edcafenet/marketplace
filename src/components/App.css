@@ -5,7 +5,7 @@
 }
 .left {
     float: left;
-    width: 60%;
+    width: 58%;
 }
 .right {
     overflow: hidden;
@@ -38,6 +38,7 @@ fieldset, legend {
   background: white;
   width: 6  0%;
   height: auto;
+  overflow-y: auto;
   top:50%;
   left:50%;
   transform: translate(-50%,-50%);
@@ -51,6 +52,16 @@ fieldset, legend {
   display: none;
 }
 
+.player-wrapper {
+  position: relative;
+  padding-top: 100.25% /* Player ratio: 100 / (1280 / 720) */
+}
+
+.react-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 
 /* Styles for the gallery */
 @import "~react-image-gallery/styles/css/image-gallery.css";

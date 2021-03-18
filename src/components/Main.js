@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FileUploader from './FileUploader.js'
 import Modal from './Modal.js'
-import MerkleViz from './MerkleViz.js'
+import CenteredTree from './MerkleViz.js'
 
 class Main extends Component {
 
@@ -11,10 +11,12 @@ class Main extends Component {
       InputTasks: [],
       InputRoot: '',
       InputFileLoaded: false,
-      ShowModal: false,
-      MerkleTree: ''
+      ShowModalArray: [ { name: "first", isActive: false },
+                        { name: "second", isActive: false },
+                        { name: "third", isActive: false }]
     };
       this.handleInputFile = this.handleInputFile.bind(this)
+      this.onClick = this.onClick.bind(this)
   }
 
   onReaderLoad(event){
@@ -30,17 +32,19 @@ handleInputFile(inputFile) {
     reader.onload = this.onReaderLoad.bind(this);
   }
 
- showModal = () => {
-   this.setState({ ShowModal: true });
-  }
+  onClick(index) {
+    let tmp = this.state.ShowModalArray;
+    tmp[index].isActive = !tmp[index].isActive;
+    this.setState({ ShowModalArray: tmp });
+}
 
- hideModal = () => {
-   this.setState({ ShowModal: false });
-  }
 
   render() {
     return (
       <div id="content">
+      { this.props.account == '0x531E40a3e0327f6c5760b2896A20dcA6cCBf7844'
+        ?
+        <>
         <h1>Add service</h1>
         <form onSubmit={(event) => {
           event.preventDefault()
@@ -55,7 +59,7 @@ handleInputFile(inputFile) {
               type="text"
               ref={(input) => { this.serviceName = input }}
               className="form-control"
-              placeholder="Service Name"
+              placeholder="Number of Robots"
               required />
           </div>
           <div className="form-group mr-sm-2">
@@ -78,13 +82,17 @@ handleInputFile(inputFile) {
           </div>
           <button type="submit" className="btn btn-primary">Add Service</button>
         </form>
+        </>
+        : null
+       }
+
         <p>&nbsp;</p>
         <h2>Buy service</h2>
         <table className="table">
           <thead>
             <tr>
               <th scope="col">#</th>
-              <th scope="col">Name</th>
+              <th scope="col">Number of Robots</th>
               <th scope="col">Price</th>
               <th scope="col">Time (Mins)</th>
               <th scope="col">Owner</th>
@@ -140,22 +148,23 @@ handleInputFile(inputFile) {
                         ?
                         <FileUploader {...this.props}
                         handleInputFile = {this.handleInputFile} />
-                        :
+                        : service.purchased ?
                         <>
-                        <Modal show={this.state.ShowModal} handleClose={this.hideModal}>
-                          <MerkleViz service_id={service.id.toNumber()}>
-                          </MerkleViz>
-                        </Modal>
-
-                        <button className="btn btn-primary" onClick={this.showModal}>
+                        <button className="btn btn-primary" onClick={() => this.onClick(key)}>
                          Results
                         </button>
+
+                            <Modal show={this.state.ShowModalArray[key].isActive} handleClose={() => this.onClick(key)}>
+                              <CenteredTree service_id={key}/>
+                            </Modal>
                         </>
+                          : null
                       }
                       </td>
                 </tr>
               )
-            })}
+            })
+          }
           </tbody>
         </table>
       </div>

@@ -4,7 +4,11 @@ import './App.css';
 import Marketplace from '../abis/Marketplace.json'
 import Navbar from './Navbar.js'
 import Main from './Main.js'
-import Gallery from './Gallery.js'
+import ReactPlayer from 'react-player'
+
+const request = require('request');
+var url = window.location.href + '/media.json';
+var jsonObjectVideoURLs;
 
 class App extends Component {
 
@@ -42,7 +46,7 @@ class App extends Component {
       const serviceCount = await marketplace.methods.serviceCount().call()
       this.setState({serviceCount})
       // Load services
-      for (var i =1; i<=serviceCount; i++){
+      for (var i =1; i<=serviceCount-1; i++){
         const service = await marketplace.methods.services(i).call()
         this.setState({
           services: [...this.state.services, service]
@@ -67,6 +71,13 @@ class App extends Component {
     this.createService = this.createService.bind(this)
     this.purchaseService = this.purchaseService.bind(this)
     this.removeService = this.removeService.bind(this)
+
+    // Request the video URLs
+    request(url, function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+         jsonObjectVideoURLs = JSON.parse(body);
+      }
+    });
   }
 
   createService(name,price, time){
@@ -77,7 +88,7 @@ class App extends Component {
     })
   }
 
-  purchaseService(id , price, data, root){
+  purchaseService(id, price, data, root){
     this.setState({loading: true})
     this.state.marketplace.methods.purchaseService(id, data, root).send({from: this.state.account, value: price}).on('confirmation', (receipt) => {
       this.setState({loading: false})
@@ -94,6 +105,13 @@ class App extends Component {
   }
 
   render() {
+
+    var videoURLs = [];
+    for(var i in jsonObjectVideoURLs)
+    {
+        videoURLs.push(jsonObjectVideoURLs[i]["embedUrl"]);
+    }
+
     return (
       <div>
         <Navbar account={this.state.account}/>
@@ -110,10 +128,17 @@ class App extends Component {
                   removeService = {this.removeService}/>}
             </main>
            </div>
+
            <div className="right">
-            <gallery role="gallery">
-             {<Gallery/>}
-           </gallery>
+            <div className='player-wrapper'>
+               <ReactPlayer
+                  className='react-player'
+                  controls = 'true'
+                  url={videoURLs}
+                  width='100%'
+                  height='100%'
+                  />
+            </div>
            </div>
         </div>
       </div>
