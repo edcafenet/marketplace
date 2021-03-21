@@ -14,9 +14,14 @@ var jsonObjectVideoURLs;
 class App extends Component {
 
 componentDidMount() {
-    setTimeout(() => {
-      this.setState({splash: false});
-    }, 1000); // 1000ms = 1 second
+  }
+
+turnOnSplash() {
+      this.setState({splash: true})
+  }
+
+turnOffSplash() {
+      this.setState({splash: false})
   }
 
   async componentWillMount(){
@@ -79,6 +84,8 @@ componentDidMount() {
     this.createService = this.createService.bind(this)
     this.purchaseService = this.purchaseService.bind(this)
     this.removeService = this.removeService.bind(this)
+    this.turnOffSplash = this.turnOffSplash.bind(this)
+    this.turnOnSplash = this.turnOffSplash.bind(this)
 
     // Request the video URLs
     request(url, function (error, response, body) {
@@ -120,9 +127,9 @@ componentDidMount() {
         videoURLs.push(jsonObjectVideoURLs[i]["embedUrl"]);
     }
 
-    // if (this.state.splash) {
-    //   return <div><Splash/></div>
-    // }
+    if (this.state.splash) {
+      return <div><Splash turnOffSplash = {this.turnOffSplash}/></div>
+    }
 
     return (
       <div>
