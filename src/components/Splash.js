@@ -16,15 +16,29 @@ class Splash extends Component {
           <head>
           <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <title>Swarm Marketplace</title>
+          <title>IRIDIA Swarm Marketplace</title>
           <meta name="generator" content="Org mode" />
           <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_HTML"></script>
           </head>
           <body>
           <div id="content">
+          <div id="outline-container-org7432ca199" class="outline-2">
+          <h1 id="org7432ca9"><span class="section-number-2"></span> Quick Setup </h1>
+          <div class="outline-text-2" id="text-1">
+          <p>
+              <ol class="org-ol">
+              <li>Install the <a target="_blank"href="https://metamask.io"> Metamask</a> addon for your browser</li>
+              <li>Activate your Metamask wallet</li>
+              <li>Make sure you are connected to the <i>Rinkeby Test Network</i></li>
+              <li>Enter the marketplace by clicking on the button at the top right side of the site</li>
+              </ol>
+          </p>
+          </div>
+          </div>
+          &nbsp;
 
           <div id="outline-container-org7432ca9" class="outline-2">
-          <h1 id="org7432ca9"><span class="section-number-2"></span> Summary</h1>
+          <h1 id="org7432ca9"><span class="section-number-2"></span> Abstract</h1>
           <div class="outline-text-2" id="text-1">
           <p>
           <b>IRIDIA<sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup> Swarm Marketplace</b>: a web-based service marketplace
@@ -51,7 +65,7 @@ class Splash extends Component {
 
           <div id="orga2657c9" class="figure">
           <p><img src={window.location.href + "splash/Marketplace.png"} alt="Marketplace.png" width="1000px" /></p>
-          <p><span class="figure-number">Figure 1: </span>Information flow for the proposed in this application where: (1) IRIDIA staff adds services to the smart-contract by using this web interface. (2) Customers can purchase available services (i.e., a certain number of robots, for a time, for a price) by providing a valid MT as input and paying the price listed in cryptocurrency (i.e., Ethers). (3) Then, the smart-contract sends the MT to the robot swarm and the mission starts. (4) When the job is finished, the resultant hashes that prove that the robots did the job requested are sent to the smart-contract and displayed in the results section of the web interface. (5) The smart-contract publishes multimedia material of the job done by the robots in a public site where the customer can retrieve it.</p>
+          <p><span class="figure-number">Figure 1: </span>Information flow for the proposed application where: (1) IRIDIA staff adds services to the smart-contract by using this web interface. (2) Customers can purchase available services (i.e., a certain number of robots, for a time, for a price) by providing a valid MT as input and paying the price listed in cryptocurrency (i.e., Ethers). (3) Then, the smart-contract sends the MT to the robot swarm and the mission starts. (4) When the job is finished, the resultant hashes that prove that the robots did the job requested are sent to the smart-contract and displayed in the results section of the web interface. (5) The smart-contract publishes multimedia material of the job done by the robots in a public site where the customer can retrieve it.</p>
           </div>
 
           <p>
@@ -226,18 +240,17 @@ class Splash extends Component {
           <div class="outline-text-3" id="text-4-3">
           <p>
           For every completed service a new video is automatically uploaded
-          to the IRIDIA&rsquo;s Swarm Marketplace Youtube playlist<sup><a id="fnr.2.100" class="footref" href="#fn.2">2</a></sup> together with a snapshot picture of the swarm when the service was
+          to the IRIDIA&rsquo;s Swarm Marketplace Youtube playlist<sup><a id="fnr.2.100" class="footref" href="#fn.2">2</a></sup> together with a snapshot picture of the swarm when the service is
           completed. This web interface will show an updated playlist of these
           videos with their correspondent IDs.
           </p>
 
           <p>
           Finally, the customer can use this multimedia material for whatever
-          he/she might need. A good example of potential uses for these
-          resources is service number 3, which customer uploaded an MT that
-          encoded his Github avatar icon. After the service was completed and
-          the multimedia material was generated, he was able to use the
-          snapshot picture as <a target="_blank"href="https://github.com/edcafenet/">his profile picture for his Github account</a>.
+          he/she might need. A good example is service number 3. The customer of this service uploaded an MT that
+          encoded his Github <a target="_blank" href="https://github.blog/2013-08-14-identicons/">identicon</a>. After the service was completed by the robots and
+          the multimedia material was generated, the customer used the
+          snapshot picture as <a target="_blank" href="https://github.com/edcafenet/">his Github profile picture</a>.
           </p>
           </div>
           </div>

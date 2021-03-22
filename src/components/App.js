@@ -152,7 +152,7 @@ turnOffSplash() {
             <div className='player-wrapper'>
                <ReactPlayer
                   className='react-player'
-                  playbackRate = '2'
+                  playing = 'true'
                   controls = 'true'
                   url={videoURLs}
                   width='100%'
