@@ -69,17 +69,15 @@ class Splash extends Component {
           </div>
 
           <p>
-          Fig. 1 shows the general framework and
-          main components of the IRIDIA Swarm Marketplace: a web-based
+          Fig. 1 shows the general framework and main components of the IRIDIA Swarm Marketplace: a web-based
           marketplace for swarm robotics services built on blockchain
           technology. Let’s consider an example of how this marketplace could be used. In
           the planning of research activities there are periods of time in which
           IRIDIA’s robot swarm remains idle. When this happens, the IRIDIA staff
-          members taking care of the robot swarm allocation to the different
-          research activities will broadcast the robot swarm availability
-          through a market-based website. In this website, IRIDIA staff can log
+          members taking care of the robot swarm will broadcast the robot swarm availability
+          through a market-based website. This website acts as the web front end of a smart-contract<sup><a id="fnr.3" class="footref" href="#fn.3">3</a></sup> uploaded to the Ethereum blockchain. In this website, IRIDIA staff can log
           into the platform by using lab-controlled Ethereum accounts and the
-          <a target="_blank"href="https://metamask.io"> Metamask</a> interface (a popular Ethereum wallet that allows your browser
+          <a target="_blank" href="https://metamask.io"> Metamask</a> interface (a popular Ethereum wallet that allows your browser
           to connect to the Ethereum blockchain). Then, a new service can be
           added where the number of robots available, the amount of time they
           are available for, and the price charged for their use are
@@ -255,8 +253,11 @@ class Splash extends Component {
           </div>
           </div>
           </div>
+
+          &nbsp;
+          &nbsp;
           <div id="footnotes">
-          <h2 class="footnotes">Footnotes: </h2>
+          <h1 class="footnotes">Footnotes: </h1>
           <div id="text-footnotes">
 
           <div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
@@ -267,6 +268,10 @@ class Splash extends Component {
 
           <div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
           <a target="_blank"href="https://youtube.com/playlist?list=PLzpeKcW5WQlw-2MeehPr7ouIhpMI_x2N9">https://youtube.com/playlist?list=PLzpeKcW5WQlw-2MeehPr7ouIhpMI_x2N9</a>
+          </p></div></div>
+
+          <div class="footdef"><sup><a id="fn.3" class="footnum" href="#fnr.3">3</a></sup> <div class="footpara"><p class="footpara">
+          The smart-contract's source code can be found <a target="_blank" href="https://blockchainswarm.eu/contracts/Marketplace.sol">here</a>
           </p></div></div>
 
           </div>
