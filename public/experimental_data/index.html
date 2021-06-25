@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/png" href="%PUBLIC_URL%/favicon.png" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <meta name="theme-color" content="#000000" />
+    <!--
+      manifest.json provides metadata used when your web app is installed on a
+      user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
+    -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <!--
+      Notice the use of %PUBLIC_URL% in the tags above.
+      It will be replaced with the URL of the `public` folder during the build.
+      Only files inside the `public` folder can be referenced from the HTML.
+
+      Unlike "/favicon.ico" or "favicon.ico", "%PUBLIC_URL%/favicon.ico" will
+      work correctly both with client-side routing and a non-root public URL.
+      Learn how to configure a non-root public URL by running `npm run build`.
+    --><?xml version="1.0" encoding="utf-8"?>
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+    <head>
+    <!-- 2021-06-25 Fri 12:54 -->
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Data description for "Secure and secret cooperation in robotic swarms"</title>
+    <meta name="generator" content="Org mode" />
+    <meta name="author" content="Eduardo Castello" />
+    <script type="text/javascript">
+    /*
+    @licstart  The following is the entire license notice for the
+    JavaScript code in this tag.
+
+    Copyright (C) 2012-2019 Free Software Foundation, Inc.
+
+    The JavaScript code in this tag is free software: you can
+    redistribute it and/or modify it under the terms of the GNU
+    General Public License (GNU GPL) as published by the Free Software
+    Foundation, either version 3 of the License, or (at your option)
+    any later version.  The code is distributed WITHOUT ANY WARRANTY;
+    without even the implied warranty of MERCHANTABILITY or FITNESS
+    FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+    As additional permission under GNU GPL version 3 section 7, you
+    may distribute non-source (e.g., minimized or compacted) forms of
+    that code without the copy of the GNU GPL normally required by
+    section 4, provided you include this license notice and a URL
+    through which recipients can access the Corresponding Source.
+
+
+    @licend  The above is the entire license notice
+    for the JavaScript code in this tag.
+    */
+    <!--/*--><![CDATA[/*><!--*/
+     function CodeHighlightOn(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(null != target) {
+         elem.cacheClassElem = elem.className;
+         elem.cacheClassTarget = target.className;
+         target.className = "code-highlighted";
+         elem.className   = "code-highlighted";
+       }
+     }
+     function CodeHighlightOff(elem, id)
+     {
+       var target = document.getElementById(id);
+       if(elem.cacheClassElem)
+         elem.className = elem.cacheClassElem;
+       if(elem.cacheClassTarget)
+         target.className = elem.cacheClassTarget;
+     }
+    /*]]>*///-->
+    </script>
+    </head>
+    <body>
+    <div id="content">
+
+
+    <div id="outline-container-org80e3957" class="outline-2">
+    <h2 id="org80e3957">Abstract</h2>
+    <div class="outline-text-2" id="text-org80e3957">
+    <p>
+    This page is created in order to describe the data
+    included in the paper titled: <a href="https://arxiv.org/abs/1904.09266">"Secure and secret cooperation in
+    robotic swarms"</a>. The entire dataset can be downloaded <a href="https://www.dropbox.com/s/sn6zf9k0sr07yei/abf1538_experimental_data.tar.gz?dl=0">here</a>.
+    </p>
+    </div>
+    </div>
+
+    <div id="outline-container-orgc4f5759" class="outline-2">
+    <h2 id="orgc4f5759">Content and structure</h2>
+    <div class="outline-text-2" id="text-orgc4f5759">
+    <p>
+    The content of the <code>abf1538_experimental_data.tar.gz</code> file (89 GB) follows the
+    following folder structure:
+    </p>
+    </div>
+
+    <div id="outline-container-org949bb85" class="outline-3">
+    <h3 id="org949bb85"><code>demos</code></h3>
+    <div class="outline-text-3" id="text-org949bb85">
+    <p>
+    This folder contains one high-quality demo video for each scenario presented in
+    the paper. The content of the folder is the following:
+    </p>
+
+    <ul class="org-ul">
+    <li>M1. Foraging - 16 Robots, 8 Tasks (Simulation).mp4 <a href="https://youtu.be/LGXWx_xMexw">Youtube link</a></li>
+    <li>M2. Foraging - 16 Robots, 8 Tasks.mp4 <a href="https://youtu.be/hImae_ykp8M">Youtube link</a></li>
+    <li>M3. Maze formation - 16 Robots (Simulation).mp4 <a href="https://youtu.be/QT-TE4BqCyk">Youtube link</a></li>
+    <li>M4. Maze formation - 16 Robots.mp4 <a href="https://youtu.be/8Rq2wYWtNIk">Youtube link</a></li>
+    <li>M5. Tangible Swarm (Supporting features).mp4 <a href="https://youtu.be/pUGIoen47jE">Youtube link</a></li>
+    </ul>
+    </div>
+    </div>
+
+    <div id="outline-container-org4d08e7a" class="outline-3">
+    <h3 id="org4d08e7a"><code>real_robots</code></h3>
+    <div class="outline-text-3" id="text-org4d08e7a">
+    <p>
+    This folder contains all the data collected during the real-robot
+    experiments presented in the paper. The structure of the
+    subdirectory hierarchy is the following:
+    </p>
+
+
+    <pre class="example">
+    |-- (type of mission) -&gt; either foraging or maze_formation
+    |   `-- R (number of robots)
+    |       `-- T (number of tasks)
+    </pre>
+
+    <p>
+    At the end of this tree hierarchy, two folders can be seen: data
+    and videos. Within videos, you will find one <code>.avi</code> file for each
+    real-robot experiment. The name of the file is generated based on
+    the experiment's timestamp (e.g., 2020-07-23-04-49-43). For each
+    video file there is one corresponding data file (with the same
+    timestamp) in the data folder.
+    </p>
+    </div>
+
+    <div id="outline-container-org7d8a6b7" class="outline-4">
+    <h4 id="org7d8a6b7"><code>real_robot data file (.bag)</code></h4>
+    <div class="outline-text-4" id="text-org7d8a6b7">
+    <p>
+    Within the data folder you will find one <code>.bag</code> file per
+    experiment. As mentioned in the supplementary material of the
+    article, ROS (Robot Operating System) was used in order to
+    publish/subscribe information to/from the robots. Accordingly,
+    we used the <a href="http://wiki.ros.org/rosbag">rosbag</a> toolbox to record every message the
+    robots sent/received during the experiment into a <code>.bag</code> file.
+    </p>
+
+    <p>
+    Therefore, you can recreate each experiment by "playing" each <code>.bag</code>
+    file in your ROS environment:
+    </p>
+
+    <pre class="example">
+    $ rosbag play file.bag
+    </pre>
+
+    <p>
+    For more information about how to filter, reindex, or obtain
+    additional information from these files, please take a look <a href="http://wiki.ros.org/rosbag/Commandline">here</a>.
+    </p>
+    </div>
+    </div>
+    </div>
+
+    <div id="outline-container-org0cb35f1" class="outline-3">
+    <h3 id="org0cb35f1"><code>simulation</code></h3>
+    <div class="outline-text-3" id="text-org0cb35f1">
+    <p>
+    This folder contains all the data collected during the simulation
+    experiments presented in the paper. The structure of the
+    subdirectory hierarchy is the following:
+    </p>
+
+    <pre class="example">
+
+    |-- (type of mission) -&gt; either foraging or maze_formation
+    |   `-- R (number of robots)
+    |       `-- T (number of tasks)
+    |           `-- SIM (number of simulation run)
+
+    </pre>
+    </div>
+
+
+    <div id="outline-container-org92a4d13" class="outline-4">
+    <h4 id="org92a4d13"><code>simulation data files (.dat &amp; .json)</code></h4>
+    <div class="outline-text-4" id="text-org92a4d13">
+    <p>
+    Within each SIM folder you will find two types of files:
+    </p>
+
+    <ul class="org-ul">
+    <li><p>
+    <code>.dat</code>, this file contains information about the progress of the
+    simulation run. In particular, how many robots completed their merkle tree copy and at what time they
+    did it. The structure of this
+    file is the following:
+    </p>
+
+    <table border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+
+
+    <colgroup>
+    <col  class="org-left" />
+    </colgroup>
+
+    <colgroup>
+    <col  class="org-left" />
+    </colgroup>
+    <tbody>
+    <tr>
+    <td class="org-left">time step</td>
+    <td class="org-left">number of robots with a completed merkle tree</td>
+    </tr>
+    </tbody>
+    </table>
+
+    <p>
+    For instance, in simulations where there are two robots involved
+    (R2), the value for the last row for the "number of robots with
+    a completed MT" field would be 2. In this regard, the last value
+    of the column "time step" would be the time all robots completed
+    their merkle tree copies.
+    </p></li>
+
+    <li><code>.json</code>, this file contains a list of objects (one for each time
+    step) that describes the folllowing information:
+
+    <ul class="org-ul">
+    <li><code>robots</code> -&gt; list containing all information from the robots:
+
+    <ul class="org-ul">
+    <li><code>id</code> -&gt; id of the robot currently displaying information</li>
+    <li><code>mk</code> -&gt; merkle tree object for robot with <code>id</code> as identifier
+    <ul class="org-ul">
+    <li><code>by_robot</code> -&gt; leaf id completed by the robot itself</li>
+    <li><code>leaf_received</code> -&gt; leaf id received from another robot</li>
+    <li><code>from_robot</code> -&gt; robot id that sent the leaf described in <code>leaf_received</code></li>
+    </ul></li>
+    <li><code>neighbors</code> -&gt; information about the robot neighbors
+    <ul class="org-ul">
+    <li><code>id</code> -&gt; robot neighbor id</li>
+    <li><code>range</code> -&gt; robot neighbor range</li>
+    </ul></li>
+    </ul></li>
+    <li><code>time</code> -&gt; current time step</li>
+    </ul></li>
+    </ul>
+    </div>
+    </div>
+    </div>
+
+    <div id="outline-container-org17257aa" class="outline-3">
+    <h3 id="org17257aa"><code>merkle_tree_statistics</code></h3>
+    <div class="outline-text-3" id="text-org17257aa">
+    <p>
+    This folder contains all the data collected in order to recreate
+    Table 1 within the results section of the paper. Each file contains
+    three lists (one for each LEGO model presented) of 100 time measures for the
+    following concepts:
+    </p>
+
+    <ul class="org-ul">
+    <li><code>merkle_creation</code> -&gt;  creation time of the complete merkle tree</li>
+    <li><code>proof_generation</code> -&gt; proof generaltion time for a random leave in
+    the merkle tree</li>
+    <li><code>proof_validation</code> -&gt; proof validation time for a random leave in
+    the merkle tree</li>
+    </ul>
+
+    <p>
+    These files have been generated using the pickle python
+    library. This library allows to convert a python variable to
+    bytestream and viceversa. You can read each <code>.pickle</code> file and
+    convert it into a python list by ussing the following command in
+    your python environment:
+    </p>
+
+    <pre class="example">
+    # Load the pickle library
+    import pickle
+
+    merkle_creation_times = pickle.load( open( "merkle_creation.pickle", "rb" ) )
+    </pre>
+
+    <p>
+    More information about the pickle library can be found <a href="https://docs.python.org/3/library/pickle.html">here</a>.
+    </p>
+    </div>
+    </div>
+
+    <div id="outline-container-org8f9ed1a" class="outline-3">
+    <h3 id="org8f9ed1a">marketplace</h3>
+    <div class="outline-text-3" id="text-org8f9ed1a">
+    <p>
+    This folder contains all the data collected during the IRIDIA
+    marketplace set of experiments. The folder structure of this
+    directory is the following:
+    </p>
+
+    <ul class="org-ul">
+    <li>data -&gt; <code>.bag</code> files for the completed services</li>
+    <li>videos -&gt; <code>.avi</code> files for the completed services</li>
+    <li>pics -&gt; <code>.png</code> files for the completed services</li>
+    </ul>
+    </div>
+    </div>
+    </div>
+    </div>
+    </body>
+</html>

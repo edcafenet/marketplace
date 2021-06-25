@@ -227,7 +227,7 @@ class Splash extends Component {
           received MT together with the data (i.e., results) needed to compute its leaves
           (i.e., tasks). In this situation, the marketplace will
           show a &ldquo;Results&rdquo; button where this information is displayed. An
-          example of this dialog can is depicted in Fig. 5.
+          example of this dialog is depicted in Fig. 5.
           </p>
           </div>
           </div>
